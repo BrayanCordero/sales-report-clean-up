@@ -115,18 +115,24 @@ daily_transactions = daily_sales_replaced.split(",")
 
 #empty list clean up the data
 daily_transactions_split = []
-daily_transactions_clean = []
+transactions_clean = []
 customers = []
 sales = []
 thread_sold = []
 
 
-# iterate through daily_transactions to split it by the character - and append it to daily_transactions_split list
+# iterates through daily_transactions to split it by the character - and append it to daily_transactions_split list
 for transactions in daily_transactions:
     daily_transactions_split.append(transactions.split("-"))
 
 
-# iterate first through daily_transactions_split and then through transaction to strip unnecessary white space
+# iterate first through daily_transactions_split and then through transaction to strip unnecessary white space and append it to transactions_clean
 for transaction in daily_transactions_split:
     for data in transaction:
-        daily_transactions_clean.append(data.strip(" "))
+        transactions_clean.append(data.strip(" "))
+
+# iterates through transactions_clean and adds the data to the corresponding list.
+for i in range(0, len(transactions_clean ), 4):
+    customers.append(transactions_clean[i])
+    sales.append(transactions_clean[i + 1].strip(" "))       # removes any white space still remaining 
+    thread_sold.append(transactions_clean[i + 2])
