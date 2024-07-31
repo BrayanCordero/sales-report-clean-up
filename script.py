@@ -119,3 +119,14 @@ daily_transactions_clean = []
 customers = []
 sales = []
 thread_sold = []
+
+
+# iterate through daily_transactions to split it by the character - and append it to daily_transactions_split list
+for transactions in daily_transactions:
+    daily_transactions_split.append(transactions.split("-"))
+
+
+# iterate first through daily_transactions_split and then through transaction to strip unnecessary white space
+for transaction in daily_transactions_split:
+    for data in transaction:
+        daily_transactions_clean.append(data.strip(" "))
