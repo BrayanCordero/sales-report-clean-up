@@ -118,7 +118,8 @@ daily_transactions_split = []
 transactions_clean = []
 customers = []
 sales = []
-thread_sold = []
+thread_color = []
+total_sales = 0
 
 
 # iterates through daily_transactions to split it by the character - and append it to daily_transactions_split list
@@ -135,4 +136,8 @@ for transaction in daily_transactions_split:
 for i in range(0, len(transactions_clean ), 4):
     customers.append(transactions_clean[i])
     sales.append(transactions_clean[i + 1].strip(" "))       # removes any white space still remaining 
-    thread_sold.append(transactions_clean[i + 2])
+    thread_color.append(transactions_clean[i + 2])
+
+
+for sale in sales:
+    total_sales += float(sale.strip("$"))
