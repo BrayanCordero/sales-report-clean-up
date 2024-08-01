@@ -107,37 +107,60 @@ green&white;,;09/15/17,   Gail Phelps   ;,;$30.52
 ;,;   $22.66   ;,; green&white&blue;,;09/15/17"""
 
 
-#replaces unnecessary characters
-daily_sales_replaced = daily_sales.replace(";,;", "-")
 
-#split it by commas 
-daily_transactions = daily_sales_replaced.split(",")
-
-#empty list clean up the data
-daily_transactions_split = []
-transactions_clean = []
 customers = []
 sales = []
-thread_color = []
-total_sales = 0
+thread_sold = []
 
 
-# iterates through daily_transactions to split it by the character - and append it to daily_transactions_split list
-for transactions in daily_transactions:
-    daily_transactions_split.append(transactions.split("-"))
+def main():
 
 
-# iterate first through daily_transactions_split and then through transaction to strip unnecessary white space and append it to transactions_clean
-for transaction in daily_transactions_split:
-    for data in transaction:
-        transactions_clean.append(data.strip(" "))
+    def script(daily_sales_report):
+        total_sales = 0
+        count_c = 0
+        i = 0
+        while i < len(daily_sales_report):
+            c = daily_sales_report[i]
+            curr_string = ""
+            while c != ',' and i < len(daily_sales_report):
+                if c != ';' and c != '$':
+                    curr_string += c
+                i += 1
+                if i < len(daily_sales_report):
+                    c = daily_sales_report[i]
+            count_c += 1
+            if count_c == 1:
+                customers.append(curr_string.strip())
+            elif count_c == 2:
+                sales.append(float(curr_string.strip()))
+                total_sales += float(curr_string.strip())
+            elif count_c == 3:
+                threads = curr_string.split("&")
+                for thread in threads:
+                    thread_sold.append(thread.strip())
+            if count_c == 4:
+                count_c = 0
+            i += 1
+        return total_sales
 
-# iterates through transactions_clean and adds the data to the corresponding list.
-for i in range(0, len(transactions_clean ), 4):
-    customers.append(transactions_clean[i])
-    sales.append(transactions_clean[i + 1].strip(" "))       # removes any white space still remaining 
-    thread_color.append(transactions_clean[i + 2])
+# function that calculates total sales of the thread color. (white, red, blue, yellow, purple, green, or black)
+    def color_sales(color):
+        count = 0
+        for thread in thread_sold:
+            if thread == color:
+                count += 1
+        return "Number of {} thread sold: {}".format(color, count)
 
 
-for sale in sales:
-    total_sales += float(sale.strip("$"))
+    script(daily_sales)
+    #uncomment any of the following to get data:
+    # print(color_sales("white"))     
+    # print(thread_sold)
+    # print(customers)
+    # print(sales)
+
+
+
+if __name__ == '__main__':
+    main()
